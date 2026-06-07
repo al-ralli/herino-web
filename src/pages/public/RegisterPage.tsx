@@ -6,6 +6,7 @@ import { useRegisterMutation } from "@/hooks/queries/useRegisterMutation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { getApiErrorMessage } from "@/lib/api-error";
 
 const registerSchema = z.object({
   firstName: z.string().min(1, { message: "Ce champ est requis." }),
@@ -45,8 +46,8 @@ const RegisterPage = () => {
       onSuccess: () => {
         navigate("/dashboard");
       },
-      onError: () => {
-        setError("root", { message: "Une erreur est survenue." });
+      onError: (error) => {
+        setError("root", { message: getApiErrorMessage(error) });
       },
     });
   };

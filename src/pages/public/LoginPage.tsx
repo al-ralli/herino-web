@@ -7,6 +7,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { getApiErrorMessage } from "@/lib/api-error";
 
 const loginSchema = z.object({
   email: z
@@ -38,9 +39,8 @@ const LoginPage = () => {
       onSuccess: () => {
         navigate(isAdmin ? "/admin" : "/dashboard");
       },
-      onError: (e) => {
-        console.error("Login error:", e);
-        setError("root", { message: "Email ou mot de passe incorrect." });
+      onError: (error) => {
+        setError("root", { message: getApiErrorMessage(error) });
       },
     });
   };
