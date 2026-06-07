@@ -31,12 +31,16 @@ export async function login(dto: LoginDto): Promise<AuthUser> {
   return user;
 }
 
-export async function register(dto: RegisterDto): Promise<AuthTokenResult> {
+export async function register(dto: RegisterDto): Promise<AuthUser> {
   const { data } = await herinoClient.post<AuthTokenResult>(
     ENDPOINTS.auth.register(),
     dto,
   );
-  return data;
+
+  useAuthStore.getState().setToken(data.access_token);
+
+  const user = await getMe();
+  return user;
 }
 
 export async function getMe(): Promise<AuthUser> {

@@ -19,4 +19,12 @@ const ProtectedRoute = ({ role }: ProtectedRouteProps) => {
   return <Outlet />;
 };
 
-export { ProtectedRoute };
+const UnauthenticatedRoute = () => {
+  const { token } = useAuthStore();
+
+  if (token) return <Navigate to="/dashboard" replace />;
+
+  return <Outlet />;
+};
+
+export { ProtectedRoute, UnauthenticatedRoute };
